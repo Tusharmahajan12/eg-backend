@@ -237,11 +237,26 @@ export class UserService {
               updated_by
               user_id
               location_type
+              location
               owner {
                 first_name
                 last_name
                 id
               }
+            }
+            evens {
+              context
+              context_id
+              created_by
+              end_date
+              end_time
+              id
+              location
+              location_type
+              start_date
+              start_time
+              updated_by
+              user_id
             }
           }
         }`,
@@ -371,6 +386,7 @@ export class UserService {
       'state',
       'village',
     ];
+    console.log('address:', userArr);
     let user_id = req?.id ? req?.id : null;
     const keyExist = userArr.filter((e) => objKey.includes(e));
     if (keyExist.length > 0) {
@@ -654,11 +670,26 @@ export class UserService {
             updated_by
             user_id
             location_type
+            location
             owner {
               first_name
               last_name
               id
             }
+          }
+          evens {
+            context
+            context_id
+            created_by
+            end_date
+            end_time
+            id
+            location
+            location_type
+            start_date
+            start_time
+            updated_by
+            user_id
           }
         }}`,
     };
@@ -840,11 +871,26 @@ export class UserService {
             updated_by
             user_id
             location_type
+            location
             owner {
               first_name
               last_name
               id
             }
+          }
+          evens {
+            context
+            context_id
+            created_by
+            end_date
+            end_time
+            id
+            location
+            location_type
+            start_date
+            start_time
+            updated_by
+            user_id
           }
         }}`,
       variables: {
@@ -852,7 +898,7 @@ export class UserService {
         offset: offset,
       },
     };
-
+    console.log(data);
     const response = await lastValueFrom(
       this.httpService
         .post(this.url, data, {
