@@ -133,6 +133,60 @@ export class HasuraService {
   }
 
   query(
+    tableName: String,
+    item: any,
+    onlyFields: any = [],
+    update: boolean = false,
+    fields: any = [],
+  ) {
+    const keys = Object.keys(item);
+    const getObjStr = (item: any, type: String = '') => {
+      let str = 'object: {';
+      if (item?.id && update) {
+        str = `where: {id: {_eq: ${item?.id}}}, _set: {`;
+      }
+      let strArr = [];
+      keys.forEach((e, index) => {
+        if (e !== 'id' && (onlyFields.length < 1 || onlyFields.includes(e))) {
+          if (type === 'obj') {
+            strArr = [...strArr, `${e}:"${item[e]}"`];
+          } else {
+            strArr = [...strArr, `${e}:String`];
+          }
+        }
+      });
+      str += strArr.join();
+      str += `}`;
+      return str;
+    };
+
+    const getParam = (keys: any) => {
+      let str = '';
+      keys.forEach((e: any, index: any) => {
+        str += `${e}${keys.length > index + 1 ? '\n' : ''}`;
+      });
+      return str;
+    };
+
+    return `query MyQuery {
+      ${tableName}(${getObjStr(item, 'obj')}) {
+        ${
+          !(item?.id && update)
+            ? getParam(
+                fields && fields.length > 0
+                  ? fields
+                  : onlyFields
+                  ? [...onlyFields, 'id']
+                  : keys,
+              )
+            : 'affected_rows'
+        }
+      }
+    }
+    `;
+  }
+
+  mutation(
     tName: String,
     item: any,
     onlyFields: any = [],
@@ -239,7 +293,45 @@ export class HasuraService {
       tableName,
     );
   }
+  public getAll = async (
+    tableName: String,
+    object: any = { filters: {}, page: 0, limit: 100 },
+  ) => {
+    const { filters, page, limit } = object;
 
+    let offset = 0;
+    if (page > 1 && limit) {
+      offset = parseInt(limit) * (page - 1);
+    }
+
+    let query = '';
+    if (filters) {
+      Object.keys(filters).forEach((e) => {
+        if (filters[e] && filters[e] != '') {
+          query += `${e}:{_eq:"${filters[e]}"}`;
+        }
+      });
+    }
+    return this.getResponce(
+      await lastValueFrom(
+        this.httpService
+          .post(
+            this.url,
+            {
+              //query: this.query(tableName, item, onlyFields, update, fields),
+            },
+            {
+              headers: {
+                'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+          .pipe(map((res) => res.data)),
+      ),
+      tableName,
+    );
+  };
   public getResponce = (
     { data, errors }: any,
     tableName: any,
