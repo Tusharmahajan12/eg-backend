@@ -13,6 +13,8 @@ import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { HasuraModule } from './hasura/hasura.module';
 import { HelperModule } from './helper/helper.module';
+import { InterviewModule } from './interview/interview.module';
+import { OtpserviceModule } from './otpservice/otpservice.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { HelperModule } from './helper/helper.module';
     UsersModule,
     EventsModule,
     HasuraModule,
+    InterviewModule,
+    OtpserviceModule,
   ],
   controllers: [AppController, UserController, GeolocationController],
   providers: [AppService, GeolocationService, UserService],
