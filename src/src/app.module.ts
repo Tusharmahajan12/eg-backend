@@ -14,7 +14,7 @@ import { EventsModule } from './events/events.module';
 import { HasuraModule } from './hasura/hasura.module';
 import { HelperModule } from './helper/helper.module';
 import { InterviewModule } from './interview/interview.module';
-import { OtpserviceModule } from './otpservice/otpservice.module';
+import { AadhaarkycModule } from './aadhaarkyc/aadhaarkyc.module';
 
 @Module({
   imports: [
@@ -27,7 +27,7 @@ import { OtpserviceModule } from './otpservice/otpservice.module';
     EventsModule,
     HasuraModule,
     InterviewModule,
-    OtpserviceModule,
+    AadhaarkycModule,
   ],
   controllers: [AppController, UserController, GeolocationController],
   providers: [AppService, GeolocationService, UserService],

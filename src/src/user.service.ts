@@ -687,7 +687,9 @@ export class UserService {
 
     mappedResponse = {
       ...mappedResponse,
-      ['experience']: result?.experience?.filter((e) => e.type == 'experience'),
+      ['experience']: result?.experience?.filter(
+        (e: any) => e.type == 'experience',
+      ),
     };
 
     mappedResponse = {
