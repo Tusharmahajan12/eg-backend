@@ -15,12 +15,17 @@ import { HasuraModule } from './hasura/hasura.module';
 import { HelperModule } from './helper/helper.module';
 import { InterviewModule } from './interview/interview.module';
 import { AadhaarkycModule } from './aadhaarkyc/aadhaarkyc.module';
+import { S3Module } from './services/s3/s3.module';
+import { UploadFileModule } from './upload-file/upload-file.module';
 
 @Module({
   imports: [
-    HttpModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    {
+      ...HttpModule.register({}),
+      global: true,
+    },
     HelperModule,
-    ConfigModule.forRoot(),
     EnumModule,
     AuthenticateModule,
     UsersModule,
@@ -28,6 +33,8 @@ import { AadhaarkycModule } from './aadhaarkyc/aadhaarkyc.module';
     HasuraModule,
     InterviewModule,
     AadhaarkycModule,
+    S3Module,
+    UploadFileModule,
   ],
   controllers: [AppController, UserController, GeolocationController],
   providers: [AppService, GeolocationService, UserService],

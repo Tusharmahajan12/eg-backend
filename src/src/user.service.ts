@@ -244,7 +244,27 @@ export class UserService {
                 id
               }
             }
-            
+            events {
+              context
+              context_id
+              created_by
+              end_date
+              end_time
+              id
+              location
+              location_type
+              start_date
+              start_time
+              updated_by
+              user_id
+            }
+            documents(order_by: {id: desc}){
+              id
+              user_id
+              name
+              doument_type
+              document_sub_type
+            }
           }
         }`,
       variables: { keycloak_id: keycloak_id },
@@ -663,7 +683,27 @@ export class UserService {
               id
             }
           }
-          
+          events {
+            context
+            context_id
+            created_by
+            end_date
+            end_time
+            id
+            location
+            location_type
+            start_date
+            start_time
+            updated_by
+            user_id
+          }
+          documents(order_by: {id: desc}){
+            id
+            user_id
+            name
+            doument_type
+            document_sub_type
+          }
         }}`,
     };
 
@@ -685,19 +725,21 @@ export class UserService {
     }
     let mappedResponse = result;
 
-    mappedResponse = {
-      ...mappedResponse,
-      ['experience']: result?.experience?.filter(
-        (e: any) => e.type == 'experience',
-      ),
-    };
+    if (result?.experience) {
+      mappedResponse = {
+        ...mappedResponse,
+        ['experience']: result?.experience.filter(
+          (e: any) => e.type == 'experience',
+        ),
+      };
 
-    mappedResponse = {
-      ...mappedResponse,
-      ['vo_experience']: result?.experience.filter(
-        (e: any) => e.type == 'vo_experience',
-      ),
-    };
+      mappedResponse = {
+        ...mappedResponse,
+        ['vo_experience']: result?.experience.filter(
+          (e: any) => e.type == 'vo_experience',
+        ),
+      };
+    }
 
     return {
       statusCode: 200,
@@ -839,7 +881,27 @@ export class UserService {
               id
             }
           }
-          
+          events {
+            context
+            context_id
+            created_by
+            end_date
+            end_time
+            id
+            location
+            location_type
+            start_date
+            start_time
+            updated_by
+            user_id
+          }
+          documents(order_by: {id: desc}){
+            id
+            user_id
+            name
+            doument_type
+            document_sub_type
+          }
         }}`,
       variables: {
         limit: parseInt(limit),
