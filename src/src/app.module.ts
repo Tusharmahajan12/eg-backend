@@ -14,7 +14,6 @@ import { EventsModule } from './events/events.module';
 import { HasuraModule } from './hasura/hasura.module';
 import { HelperModule } from './helper/helper.module';
 import { InterviewModule } from './interview/interview.module';
-import { AadhaarkycModule } from './aadhaarkyc/aadhaarkyc.module';
 import { S3Module } from './services/s3/s3.module';
 import { UploadFileModule } from './upload-file/upload-file.module';
 
@@ -32,7 +31,6 @@ import { UploadFileModule } from './upload-file/upload-file.module';
     EventsModule,
     HasuraModule,
     InterviewModule,
-    AadhaarkycModule,
     S3Module,
     UploadFileModule,
   ],
